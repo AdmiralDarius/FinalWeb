@@ -1,0 +1,147 @@
+@font-face {
+    font-family: Sansweb-Bold;
+    src: url("../../Resources/font/IRANSansWeb-Bold.woff");
+}
+
+@font-face {
+    font-family: Sansweb;
+    src: url("../../Resources/font/IRANSansWeb.woff");
+}
+
+body {
+    background-color: #80bdff;
+    font-family: Sansweb, serif;
+}
+
+.main {
+    background-color: #f7f7f7;
+}
+
+.league-header {
+    background: url("../../Resources/header-background/league-header-background.jpg");
+}
+
+.table-fixes {
+    table-layout: fixed;
+}
+
+.team-logo {
+    max-height: 250px;
+    object-fit: scale-down;
+}
+
+.hover-b:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/*for transparent images*/
+.card-image-bg {
+    background-color: #b9bbbe;
+}
+
+pre {
+    font-family: Sansweb, serif;
+}
+
+.table-layout {
+    table-layout: fixed;
+}
+
+.best-player {
+    background-color: #e0a800;
+}
+
+.container {
+    background-color: #fff;
+}
+
+.container-fluid {
+    background-color: #fff;
+}
+
+.play-icon {
+    object-fit: contain;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    padding: 20% 20%;
+}
+
+.modal-content img {
+    object-fit: cover;
+}
+
+.modal-video {
+    object-fit: cover;
+}
+
+.on-air {
+    max-height: 20px;
+    display: block;
+    margin: auto;
+}
+
+.live-event {
+    background-color: #cfcfcf;
+    width: 100%;
+    min-height: 15em;
+    max-height: 20em;
+    flex: 1 1 auto;
+    border-width: 0.1em;
+    border-style: dotted solid;
+    border-radius: 0.5em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.timeline {
+    border-top: 2px solid #6c757d;
+    border-bottom: 2px solid #6c757d;
+    background-color: #d4d4d4;
+}
+
+.event-space {
+    flex: 1 1 auto;
+}
+
+.timeline-basket img {
+    max-height: 20px;
+}
+
+::-webkit-scrollbar-corner {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #aeaeb5
+}
+
+::-webkit-scrollbar-thumb {
+    background: #dadae3;
+    border-radius: 10px;
+    border: 1px solid #aeaeb5
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c4c4cc
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #aeaeb5
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
