@@ -1,17 +1,24 @@
 from django.db import models
-from info.models import News
-
+from django.contrib.auth.models import User
+from info.models import Team,Player,News
+from games.models import Game
 
 class FavouriteGame(models.Model):  # Darius
-    pass
+    game=models.ForeignKey(Game, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class FavouritePlayer(models.Model):  # Darius
-    pass
+    player=models.ForeignKey(Player, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class FavouriteTeam(models.Model):  # Darius
-    pass
+    team=models.ForeignKey(Team, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class SFComment(models.Model):  # shayan

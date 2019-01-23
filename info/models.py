@@ -1,22 +1,49 @@
 from django.db import models
+from .models import Team,Player
+from games.models import Game
+
+def user_directory_path(instance, filename):
+    return '{0}/{1}'.format("news_pics", filename)
 
 class News(models.Model ): #Darius
-    pass
+    title=models.CharField(max_length=100)
+    body=models.CharField(max_length=300)
+    date_added=models.DateTimeField(auto_now_add=True)
+    picture=models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    isfootball=models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["date_added"]
+
 
 class RelateNewsTeam(models.Model ): #Darius
-    pass
+    team=models.ForeignKey(Team, on_delete=models.CASCADE)
+    news=models.ForeignKey(News, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 class RelateNewsGame(models.Model ): #Darius
-    pass
+    game=models.ForeignKey(Game, on_delete=models.CASCADE)
+    news=models.ForeignKey(News, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 class RelateNewsPlayer(models.Model ): #Darius
-    pass
+    player=models.ForeignKey(Player, on_delete=models.CASCADE)
+    news=models.ForeignKey(News, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 class Player(models.Model ): #Darius
-    pass
+    age=models.IntegerField()
+    name=models.CharField(max_length=100)
+    role=models.CharField(max_length=100)
+    isfootball = models.BooleanField(default=True)
+    date_added=models.DateTimeField(auto_now_add=True)
 
 class Team(models.Model ): #Darius
-    pass
+    name = models.CharField(max_length=100)
+    isfootball = models.BooleanField(default=True)
+    date_added=models.DateTimeField(auto_now_add=True)
 
 class Tag(models.Model ): #Darius
-    pass
+    news=models.ManyToManyField(News)
+    description=models.CharField(max_length=100)
+    date_added = models.DateTimeField(auto_now_add=True)

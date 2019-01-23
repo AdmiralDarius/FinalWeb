@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--css references-->
+    <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../static/css/style.css">
+
+    <!--js references -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="../../../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <title>صفحه اخبار</title>
+
+</head>
+<body>
+<div class="container-fluid text-right" style="direction: rtl"><div class="row justify-content-center"><div class="col-9">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <p class="h1">صفحه اخبار</p>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col container ">
+                <div class="row "> <div class="col"><p class="display-4 text-right ">مورد علاقه ها</p> <hr> </div>  </div>
+                <div class="row align-items-center ">
+                    {% for news in news_list %}
+                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+
+                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                          </ul>
+                          <div class="card-body">
+                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                          </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row"><div class="col" style="background-color: #9fcdff; height: 50px" ></div></div>
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-sm-10 container ">
+                <div class="row "> <div class="col"><p class="display-4 text-right ">بسکتبال</p> <hr> </div>  </div>
+                <div class="row align-items-center">
+                    {% for news in basketball_list %}
+                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+
+                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                          </ul>
+                          <div class="card-body">
+                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                          </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        <div class="col-lg-6 col-sm-10 container " >
+                <div class="row "> <div class="col"><p class="display-4 text-right ">فوتبال</p> <hr> </div>  </div>
+                <div class="row align-items-center">
+
+                    {% for news in football_list %}
+                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+
+                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                          </ul>
+                          <div class="card-body">
+                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                          </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div></div>
+
+
+</body>
+</html>
