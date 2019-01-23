@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'sfuser.apps.SfuserConfig',
+    'games.apps.GamesConfig',
     'info.apps.InfoConfig',
     'django.contrib.admin',
     'django.contrib.auth',

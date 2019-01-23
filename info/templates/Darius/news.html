@@ -24,25 +24,33 @@
         <div class="row align-items-center">
             <div class="col container ">
                 <div class="row "> <div class="col"><p class="display-4 text-right ">مورد علاقه ها</p> <hr> </div>  </div>
-                <div class="row align-items-center ">
-                    {% for news in news_list %}
-                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+                <div class="row align-items-center " style="height: 40rem;">
+                    {% if msg %}
+                        {{ msg }}
+                    {% else %}
+                        {% if news_list %}
+                            {% for news in news_list %}
+                            <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
 
-                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
-                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">{{ news.title }}</h5>
-                            <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
-                          </div>
-                          <ul class="list-group list-group-flush">
-                          </ul>
-                          <div class="card-body">
-                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
-                          </div>
-                        </div>
+                                <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                                  <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                                  <div class="card-body">
+                                    <h5 class="card-title">{{ news.title }}</h5>
+                                    <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
+                                  </div>
+                                  <ul class="list-group list-group-flush">
+                                  </ul>
+                                  <div class="card-body">
+                                    <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                  </div>
+                                </div>
 
-                    </div>
-                    {% endfor %}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            شما هیچ مورد علاقه ای ندارید
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>

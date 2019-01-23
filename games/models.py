@@ -56,11 +56,11 @@ class LeagueTeam(models.Model):  # shayan
 
 class Game(models.Model):  # shayan
 
-    team1 = models.ForeignKey(Team, on_delete=models.CASCADE)
-    team2 = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team1 = models.ForeignKey(Team, on_delete=models.CASCADE,related_name="team1_reverse",null=True)
+    team2 = models.ForeignKey(Team, on_delete=models.CASCADE,related_name="team2_reverse",null=True)
     is_football = models.BooleanField()
-    football_states = models.ForeignKey(FootballState, on_delete=models.CASCADE)
-    basketball_states = models.ForeignKey(BasketbalState, on_delete=models.CASCADE)
+    football_states = models.ForeignKey(FootballState, on_delete=models.CASCADE,null=True)
+    basketball_states = models.ForeignKey(BasketbalState, on_delete=models.CASCADE,null=True)
 
 
 class LeagueGame(models.Model):  # shayan
@@ -87,7 +87,14 @@ class Event(models.Model):  # shayan
 
     )
 
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE,null=True)
     title = models.CharField(max_length=2, choices=event_choices)
     time = models.TimeField()
     event_pic = models.CharField(max_length=30)
+
+
+class RelateNewsGame(models.Model):  # Darius
+    from info.models import News
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
