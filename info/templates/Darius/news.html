@@ -24,7 +24,12 @@
         <div class="row align-items-center">
             <div class="col container ">
                 <div class="row "> <div class="col"><p class="display-4 text-right ">مورد علاقه ها</p> <hr> </div>  </div>
+                {% if newsnumber > 8 %}
+                <div class="row align-items-center " style="height: 40rem;overflow-y:scroll;">
+                {% else %}
                 <div class="row align-items-center " style="height: 40rem;">
+                {% endif %}
+
                     {% if msg %}
                         {{ msg }}
                     {% else %}
@@ -33,7 +38,7 @@
                             <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
 
                                 <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
-                                  <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                                  <img class="card-img-top" src="{{news.picture.url}}" style="height: 150px;width: 18rem" alt="Card image cap">
                                   <div class="card-body">
                                     <h5 class="card-title">{{ news.title }}</h5>
                                     <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
@@ -41,7 +46,15 @@
                                   <ul class="list-group list-group-flush">
                                   </ul>
                                   <div class="card-body">
-                                    <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                      <div>
+                                        <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                          {% for i in news.tag_set.all %}
+                                             <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
+                                          {% endfor %}
+                                      </div>
+                                      <div>
+                                          <span class="btn-warning" style="margin: 5px;padding: 2px" >{{ news.date_added }}</span>
+                                      </div>
                                   </div>
                                 </div>
 
@@ -60,10 +73,10 @@
                 <div class="row "> <div class="col"><p class="display-4 text-right ">بسکتبال</p> <hr> </div>  </div>
                 <div class="row align-items-center">
                     {% for news in basketball_list %}
-                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+                    <div class="col-md-5 col-sm-10 col-lg-6" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
 
-                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
-                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                        <div class="card bg-light" style="width: 18rem; margin-bottom: 50px;margin-left: 10px">
+                          <img class="card-img-top" src="{{news.picture.url}}" style="height: 150px;width: 18rem" alt="Card image cap">
                           <div class="card-body">
                             <h5 class="card-title">{{ news.title }}</h5>
                             <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
@@ -71,7 +84,15 @@
                           <ul class="list-group list-group-flush">
                           </ul>
                           <div class="card-body">
-                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                              <div>
+                                <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                  {% for i in news.tag_set.all %}
+                                     <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
+                                  {% endfor %}
+                              </div>
+                              <div>
+                                  <span class="btn-warning" style="margin: 5px;padding: 2px" >{{ news.date_added }}</span>
+                              </div>
                           </div>
                         </div>
 
@@ -80,15 +101,15 @@
 
                 </div>
             </div>
-        <div class="col-lg-6 col-sm-10 container " >
+            <div class="col-lg-6 col-sm-10 container " >
                 <div class="row "> <div class="col"><p class="display-4 text-right ">فوتبال</p> <hr> </div>  </div>
                 <div class="row align-items-center">
 
                     {% for news in football_list %}
-                    <div class="col-md-5 col-sm-10 col-lg-3" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
+                    <div class="col-md-5 col-sm-10 col-lg-6" onmouseover="$(this).parent().css('position', 'relative');$(this).css('z-index', 70000);" onmouseleave=" $(this).css('z-index', 1000);">
 
                         <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
-                          <img class="card-img-top" src={{ news.picture.url }} alt="Card image cap">
+                          <img class="card-img-top" src="{{news.picture.url}}" style="height: 150px;width: 18rem" alt="Card image cap">
                           <div class="card-body">
                             <h5 class="card-title">{{ news.title }}</h5>
                             <p class="card-text text-truncate" style="direction: rtl">{{ news.body }} </p>
@@ -96,7 +117,15 @@
                           <ul class="list-group list-group-flush">
                           </ul>
                           <div class="card-body">
-                            <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                              <div>
+                                <a href="#" class="card-link"> مشاهده</a> <!-- TODO-->
+                                  {% for i in news.tag_set.all %}
+                                     <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
+                                  {% endfor %}
+                              </div>
+                              <div>
+                                  <span class="btn-warning" style="margin: 5px;padding: 2px" >{{ news.date_added }}</span>
+                              </div>
                           </div>
                         </div>
 

@@ -15,6 +15,11 @@ def show_news_list(request):
         fgame = FavouriteGame.objects.filter(user=request.user)
 
         for news in News.objects.all():
+            from django.utils import timezone
+            result=timezone.now() - news.date_added
+            if result.days>2:
+                continue
+            news.day=result.days
             for team in fteam:
                 if RelateNewsTeam.objects.get(news=news,team=team):
                     news_list.add(news)
@@ -31,7 +36,8 @@ def show_news_list(request):
 
     context={"news_list":news_list,
              "msg":msg,
-             "football_list":News.objects.filter(isfootball=True)[0:10],
-             "basketball_list": News.objects.filter(isfootball=False)[0:10] }
+             "newsnumber":len(news_list),
+             "football_list":News.objects.filter(isfootball=True).all().reverse()[0:8],
+             "basketball_list": News.objects.filter(isfootball=False).all().reverse()[0:8] }
 
     return render(request,"Darius/news.html",context)
