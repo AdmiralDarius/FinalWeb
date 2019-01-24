@@ -67,7 +67,23 @@
                 </div>
             </div>
         </div>
-        <div class="row"><div class="col" style="background-color: #9fcdff; height: 50px" ></div></div>
+        <div class="row"><div class="col" style="background-color: #9fcdff; height: 80px" >
+
+            <form action="{% url 'info:news_list' %}" method="post">
+            {% csrf_token %}
+                <input list="pages" name="choice" id="choice" pattern="8|16|24|32">
+                <label for="choice">تعداد اخبار در صفحه</label><br>
+            <input type="submit" class="btn-warning" value="تایید">
+            </form>
+
+<datalist id="pages">
+  <option value="8">
+  <option value="16">
+  <option value="24">
+  <option value="32">
+</datalist>
+
+        </div></div>
         <div class="row align-items-center">
             <div class="col-lg-6 col-sm-10 container ">
                 <div class="row "> <div class="col"><p class="display-4 text-right ">بسکتبال</p> <hr> </div>  </div>
