@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!--css-->
+    <link rel="stylesheet" href="{% static "/bootstrap/css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "/css/style.css" %}">
+
+    <!--js-->
+    <script src="{% static "/js/sorttable.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="{% static "/bootstrap/js/bootstrap.min.js" %}"></script>
+
+
+    <title>صفحه لیگ</title>
+
+</head>
+<body>
+<header>
+
+</header>
+<header class="container-fluid league-header">
+    <div class="row justify-content-center align-items-center">
+        <img class="col-3 team-logo m-2" src="{% static '/Resources' %}/{{ league.logo }}">
+        <h2 class="col-auto order-1 font-italic text-light">{{ league.name }}</h2>
+    </div>
+</header>
+<main class="container bg-light ">
+    <div class="row justify-content-around">
+        <div class="col-3 m-2 flex-column p-0 card align-self-start d-none d-md-block">
+            <!--TODO-->
+            <header class="card-header bg-primary text-light">
+                اخبار مرتبط
+            </header>
+            <div class="card m-1 ">
+                <img class="card-img" src="../../Resources/side1.jpg">
+                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
+            </div>
+            <div class="card m-1">
+                <img class="card-img" src="../../Resources/side2.jpg">
+                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
+            </div>
+            <div class="card m-1">
+                <img class="card-img" src="../../Resources/side3.jpg">
+                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="col-8 mt-2 table table-striped text-center table-bordered table-sm table-responsive-md sortable"
+                   dir="rtl">
+                <thead class="thead-dark ">
+                <tr>
+                    <th scope="col">شماره</th>
+                    <th scope="col">تیم</th>
+                    <th scope="col">بازیها</th>
+                    <th scope="col">برد</th>
+                    <th scope="col">باخت</th>
+                    <th scope="col">مساوی</th>
+                    <th scope="col">گل زده</th>
+                    <th scope="col">گل خورده</th>
+                    <th scope="col">تفاضل گل</th>
+                    <th scope="col">امتیاز</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in league_team %}
+                    <tr>
+
+                        <td scope="row">{{ forloop.counter }}</td>
+                        <td scope="row">{{ team.team__name }}</td>
+                        <td scope="row">{{ team.game }}</td>
+                        <td scope="row">{{ team.wins }}</td>
+                        <td scope="row">{{ team.loses }}</td>
+                        <td scope="row">{{ team.draw }}</td>
+                        <td scope="row">{{ team.goals_scored }}</td>
+                        <td scope="row">{{ team.goals_received }}</td>
+                        <td scope="row">{{ team.goals_diff }}</td>
+                        <td scope="row">{{ team.score }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-dark table-borderless text-center" dir="rtl">
+                <thead>
+                <tr>
+                    <th scope="col">میزبان</th>
+                    <th scope="col">نتیجه</th>
+                    <th scope="col">میهمان</th>
+                    <th scope="col">تاریخ بازی</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if league.is_football %}
+                    {% for game in league_game %}
+                        <tr>
+                            <td>{{ game.team1.name }}</td>
+                            <td>{{ game.football_states.f_score }} - {{ game.football_states.s_score }}</td>
+                            <td>{{ game.team2.name }}</td>
+                            <td>
+                                <time datetime="{{ game.date }}">{{ game.date }}</time>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                        {% for game in league_game %}
+                        <tr>
+                            <td>{{ game.team1 }}</td>
+                            <td>{{ game.basketball_states.f_score }} - {{ game.basketball_states.s_score }}</td>
+                            <td>{{ game.team2 }}</td>
+                            <td>
+                                <time datetime="{{ game.date }}">{{ game.date }}</time>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+</body>
+</html>
