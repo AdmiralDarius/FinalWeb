@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
-# urlpatterns = [
-#
-# ]
+
+urlpatterns = [
+    path(r'all_leagues/', views.all_leagues, name='all leagues'),
+    re_path(r'^league/(?P<league_id>[0-9]+)$', views.get_league, name='league'),
+
+]

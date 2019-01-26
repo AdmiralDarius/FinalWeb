@@ -1,11 +1,11 @@
 @font-face {
     font-family: Sansweb-Bold;
-    src: url("../../Resources/font/IRANSansWeb-Bold.woff");
+    src: url("../Resources/font/IRANSansWeb-Bold.woff");
 }
 
 @font-face {
     font-family: Sansweb;
-    src: url("../../Resources/font/IRANSansWeb.woff");
+    src: url("../Resources/font/IRANSansWeb.woff");
 }
 
 body {
@@ -18,7 +18,7 @@ body {
 }
 
 .league-header {
-    background: url("../../Resources/header-background/league-header-background.jpg");
+    background: url("../Resources/header-background/league-header-background.jpg");
 }
 
 .table-fixes {
