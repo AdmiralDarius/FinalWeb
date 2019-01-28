@@ -150,3 +150,20 @@ class RelateNewsGame(models.Model):  # Darius
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
+
+def game_pic_directory(instance, filename):
+    return '{0}/{1}/{2}'.format('game pictures', instance.game_id, filename)
+
+
+class GamePic(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
+    picture = models.ImageField(upload_to=game_pic_directory, null=True, blank=True)
+
+
+def game_video_directory(instance, filename):
+    return '{0}/{1}/{2}'.format('game videos', instance.game_id, filename)
+
+
+class GameVideo(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
+    video = models.FileField(upload_to=game_video_directory, null=True, blank=True)

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--css references-->
+    <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../static/css/style.css">
+
+    <!--js references -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="../../../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <title>{% block title %}My amazing site{% endblock %}</title>
+    <script>{% block somescript %} {% endblock %}</script>
+</head>
+<body>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col">
+                <!--
+                    image header
+                -->
+                <div class="card" >
+                  <img class="card-img-top" src="../../static/Resources/pics/maxresdefault.jpg" alt="Card image cap" style="width: 100%;height: 120px;">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--
+                    navbar
+                -->
+
+                <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light">
+
+                  <a class="navbar-brand" href="#" id="signup">ثبت نام</a>
+                  <a class="navbar-brand" href="#" id="login">ورود</a>
+                    <script>
+                    $(document).ready(function(){
+                        $("#login").click(function(){
+                            $("#loginModal").modal();
+                        });
+                    });
+                    $(document).ready(function(){
+                        $("#signup").click(function(){
+                            $("#signupModal").modal();
+                        });
+                    });
+                    </script>
+                  <!-- Modal -->
+                  <div class="modal fade" id="loginModal" role="dialog" style="direction: rtl">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> ورود</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form role="form">
+                            <div class="form-group">
+                              <label for="usrname"><span class="glyphicon glyphicon-user"></span> نام کاربری</label>
+                              <input type="text" class="form-control" id="usrname" placeholder="علی">
+                            </div>
+                            <div class="form-group">
+                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> رمز عبور</label>
+                              <input type="text" class="form-control" id="psw" placeholder="1434">
+                            </div>
+                            <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> تایید</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                    <!-- Modal -->
+                  <div class="modal fade" id="signupModal" role="dialog" style="direction: rtl">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> ثبت نام</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form role="form">
+                            <div class="form-group">
+                              <label for="usrname"><span class="glyphicon glyphicon-user"></span> نام کاربری</label>
+                              <input type="text" class="form-control" id="usrname" placeholder="علی">
+                            </div>
+                            <div class="form-group">
+                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> رمز عبور</label>
+                              <input type="text" class="form-control" id="psw2" placeholder="1434">
+                            </div>
+                            <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> تایید</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto" style="font-size: 2em">
+
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">بازی ها <span class="sr-only">(current)</span></a>
+                      </li>
+
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">اخبار <span class="sr-only">(current)</span></a>
+                      </li>
+
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">خانه <span class="sr-only">(current)</span></a>
+                      </li>
+
+                    </ul>
+                  </div>
+                </nav>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% block content %}{% endblock %}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--
+                    footer
+                -->
+
+                <!-- Footer -->
+        <footer class="page-footer font-small teal pt-4 text-right bg-light" style="direction: rtl; margin-top: 30px">
+
+            <!-- Footer Text -->
+            <div class="container-fluid text-center text-md-left ">
+
+              <!-- Grid row -->
+              <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-md-6 mt-md-0 mt-3 text-right">
+
+                  <!-- Content -->
+                  <h5 class="text-uppercase font-weight-bold">فوتبال</h5>
+                    <p > اخبار و اطلاعات مربوط به تیم و بازیکنان مورد علاقه خود را دنبال کنید </p>
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none pb-3">
+
+                <!-- Grid column -->
+                <div class="col-md-6 mb-md-0 mb-3 text-right">
+
+                  <!-- Content -->
+                  <h5 class="text-uppercase font-weight-bold">بسکتبال</h5>
+                    <p> اخبار و اطلاعات مربوط به تیم و بازیکنان مورد علاقه خود را دنبال کنید </p>
+                </div>
+                <!-- Grid column -->
+
+              </div>
+              <!-- Grid row -->
+
+            </div>
+            <!-- Footer Text -->
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">حقوق :
+                <a href="#">داریوش و شایان</a>
+            </div>
+            <!-- Copyright -->
+
+          </footer>
+          <!-- Footer -->
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</body>
+</html>
+<!--
+12 max colums in container : .col-4 .col-4 .col4
+-->
