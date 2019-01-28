@@ -6,7 +6,6 @@ from django.db import models
 
 class Team(models.Model):  # Darius
     name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
     isfootball = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
