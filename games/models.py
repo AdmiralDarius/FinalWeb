@@ -71,6 +71,10 @@ def user_directory_path(instance, filename):
 
 
 class Game(models.Model):  # shayan
+    
+    title = models.CharField(max_length=50)
+    brief_description = models.CharField(max_length=100)
+    stadium = models.CharField(max_length=50)
 
     team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="team1_reverse",
                               null=True, blank=True)
