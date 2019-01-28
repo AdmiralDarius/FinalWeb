@@ -120,35 +120,29 @@
                             <table class="table table-responsive-md table-hover" id="games_table">
                               <thead>
                                 <tr>
-                                  <th scope="col" onclick="sortTable(0)" style="cursor:pointer">رقیب</th>
-                                  <th scope="col" onclick="sortTable(1)" style="cursor:pointer">برد یا باخت</th>
-                                  <th scope="col" onclick="sortTable(2)" style="cursor:pointer">امتیاز</th>
-                                  <th scope="col" onclick="sortTable(3)" style="cursor:pointer">تاریخ</th>
+                                  <th scope="col" onclick={% url "info:a_team" team.id 'opponent' %}  style="cursor:pointer">رقیب</th>
+                                  <th scope="col" onclick={% url "info:a_team" team.id 'result' %} style="cursor:pointer">برد یا باخت</th>
+                                  <th scope="col" onclick={% url "info:a_team" team.id 'date' %} style="cursor:pointer">تاریخ</th>
                                   <th scope="col">لینک بازی</th>
                                 </tr>
                               </thead>
                               <tbody>
+                                {% for game in games %}
                                 <tr>
-                                  <td scope="row">تیم 1</td>
-                                  <td>برد</td>
-                                  <td>10</td>
-                                  <td>1392/10/10</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
+                                    {% if game.team1 == team %}
+                                      <td scope="row">{{ game.team2.name }}</td>
+                                    {% else %}
+                                      <td scope="row">{{ game.team1.name }}</td>
+                                    {% endif %}
+                                    {% if game.team1 == team %}
+                                      <td>{{ game.result }}</td>
+                                    {% else %}
+                                      <td>{% if game.result == "برد" %} باخت {% else %} {% if game.result == "باخت" %} برد {% else %} مساوی {% endif %} {% endif %}</td>
+                                    {% endif %}
+                                  <td>{{ game.played }}</td>
+                                  <td><a class="" href="#">صفحه بازی</a> </td> <!-- TODO -->
                                 </tr>
-                                <tr>
-                                  <td scope="row">تیم 2</td>
-                                  <td>باخت</td>
-                                  <td>20</td>
-                                  <td>1392/5/5</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
-                                </tr>
-                                <tr>
-                                  <td scope="row">تیم 1</td>
-                                  <td>باخت</td>
-                                  <td>200</td>
-                                  <td>1393/5/5</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
-                                </tr>
+                                {% endfor %}
                               </tbody>
                             </table>
 
@@ -178,21 +172,13 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td scope="row">داریوش</td>
-                                  <td>سرمربی</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
-                                </tr>
-                                <tr>
-                                  <td scope="row">شایان</td>
-                                  <td>دروازبان</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
-                                </tr>
-                                <tr>
-                                  <td scope="row">علی</td>
-                                  <td>دفاعی</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td>
-                                </tr>
+                                {% for player in team.player_set %}
+                                    <tr>
+                                      <td scope="row">{{ player.name }}</td>
+                                      <td>{{ player.role }}</td>
+                                      <td><a class="" href={% url 'info:player' player.id %}>صفحه بازی</a> </td>
+                                    </tr>
+                                {% endfor %}
                               </tbody>
                             </table>
 
@@ -225,54 +211,24 @@
             </div>
 
         </div>
+        {% for n in news %}
         <div class="row">
             <div class="col">
 
                 <div class="media img-thumbnail ">
 
                   <div class="media-body ">
-                    <h5 class="mt-0">خبر مرتبط</h5>
-                      <p class="text-muted">آذر 90</p>
+                    <h5 class="mt-0">{{ n.title }}</h5>
+                      <p class="text-muted">{{ n.date_added }}</p>
                       <a class="btn-link" href="#">مشاهده خبر</a>
                   </div>
-                  <img class="mr-3 align-self-center" src="../../Resources/pics/maxresdefault.jpg" alt="Generic placeholder image" style="width: 100px; height: 100px;">
+                  <img class="mr-3 align-self-center" src={{ n.picture.url }} alt="Generic placeholder image" style="width: 100px; height: 100px;">
                 </div>
 
             </div>
         </div>
+        {% endfor %}
 
-        <div class="row">
-            <div class="col">
-
-                <div class="media img-thumbnail ">
-
-                  <div class="media-body ">
-                    <h5 class="mt-0">خبر مرتبط</h5>
-                      <p class="text-muted">آذر 90</p>
-                      <a class="btn-link" href="#">مشاهده خبر</a>
-                  </div>
-                  <img class="mr-3 align-self-center" src="../../Resources/pics/maxresdefault.jpg" alt="Generic placeholder image" style="width: 100px; height: 100px;">
-                </div>
-
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col">
-
-                <div class="media img-thumbnail ">
-
-                  <div class="media-body ">
-                    <h5 class="mt-0">خبر مرتبط</h5>
-                      <p class="text-muted">آذر 90</p>
-                      <a class="btn-link" href="#">مشاهده خبر</a>
-                  </div>
-                  <img class="mr-3 align-self-center" src="../../Resources/pics/maxresdefault.jpg" alt="Generic placeholder image" style="width: 100px; height: 100px;">
-                </div>
-
-            </div>
-        </div>
 
     </div>
 

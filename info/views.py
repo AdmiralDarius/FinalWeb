@@ -1,7 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import render
 
 from sfuser.models import FavouritePlayer,FavouriteTeam,FavouriteGame
-from .models import News, RelateNewsTeam,RelateNewsPlayer
+from .models import News, RelateNewsTeam, RelateNewsPlayer, Team
 from games.models import RelateNewsGame, Game
 
 
@@ -63,6 +64,57 @@ def show_games_list(request):
     return render(request, "Darius/games.html", context)
 
 def a_team(request,id):
-    games=Game.objects.filter().all()
-    context={}
+    team=Team.objects.get(id=id)
+    games=Game.objects.filter(Q(team1=team)|Q(team2=team)).all()
+    context={"team":team,"games":games}
     return render(request, "Darius/team.html", context)
+
+def a_team_sortbythis(request,id,sortbythis):
+    team=Team.objects.get(id=id)
+
+    raw_news=News.objects.all()
+    final_news=[]
+    for now in raw_news:
+        cur_tex=now.body+now.title
+        for i in now.tag_set.all():
+            cur_tex+=i.description
+        if team.name in cur_tex:
+            final_news.append(now)
+            continue
+        for i in team.player_set.all():
+            if i.name in cur_tex:
+                final_news.append(now)
+                continue
+
+    games_final=[]
+
+    raw_games=Game.objects.filter(Q(team1=team)|Q(team2=team)).all()
+    for game in raw_games:
+        tmp={}
+        result='مساوی'
+        if game.team1==team:
+            tmp['team']=game.team2
+            tmp['result'] = game.result
+        else:
+            tmp['team'] = game.team1
+            if game.result=="برد" :
+                result="باخت"
+            if game.result=="باخت" :
+                result="برد"
+            tmp['result'] = game.result
+        tmp['date']=game.date
+        games_final.append(tmp)
+
+    if sortbythis=='date':
+        games_final.sort(key=lambda x:x.date)
+    if sortbythis=='opponent':
+        games_final.sort(key=lambda x:x.team)
+    if sortbythis=='result':
+        games_final.sort(key=lambda x:x.result)
+
+    context={"team":team,"games":games_final,"news":final_news}
+    return render(request, "Darius/team.html", context)
+
+def a_player(request,id):
+    context={}
+    return render(request, "Darius/player.html", context)

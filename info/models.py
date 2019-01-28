@@ -1,12 +1,7 @@
 from django.db import models
 
 
-class Player(models.Model):  # Darius
-    age = models.IntegerField()
-    name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
-    isfootball = models.BooleanField(default=True)
-    date_added = models.DateTimeField(auto_now_add=True)
+
 
 
 class Team(models.Model):  # Darius
@@ -14,6 +9,13 @@ class Team(models.Model):  # Darius
     isfootball = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+class Player(models.Model):  # Darius
+    age = models.IntegerField()
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    isfootball = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    team=models.ForeignKey(Team, on_delete=models.CASCADE)
 
 def user_directory_path(instance, filename):
     return '{0}/{1}'.format("news_pics", filename)
