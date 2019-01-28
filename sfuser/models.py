@@ -26,4 +26,4 @@ class SFComment(models.Model):  # shayan
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     text = models.CharField(max_length=400)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)

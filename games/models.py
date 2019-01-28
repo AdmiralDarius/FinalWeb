@@ -89,6 +89,9 @@ class Game(models.Model):  # shayan
     week = models.IntegerField()
     best_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
 
+    date_added = models.DateTimeField(auto_now_add=True)
+    picture = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+
 
 class LeagueGame(models.Model):  # shayan
 

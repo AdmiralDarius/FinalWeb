@@ -11,8 +11,15 @@ class Team(models.Model):  # Darius
     isfootball = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+def player_pic_path(instance, filename):
+    return '{0}/{1}'.format("player_pics", filename)
+
 class Player(models.Model):  # Darius
+    picture = models.ImageField(upload_to=player_pic_path, null=True, blank=True)
     age = models.IntegerField()
+    pheight= models.IntegerField()
+    pweight= models.IntegerField()
+    nationality=models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     isfootball = models.BooleanField(default=True)
@@ -69,3 +76,21 @@ def game_video_directory(instance, filename):
 class GameVideo(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
     video = models.FileField(upload_to=game_video_directory, null=True, blank=True)
+
+class SeasonFootball:
+    season_number=models.IntegerField(unique=True)
+    player=models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
+    goals=models.IntegerField()
+    pas=models.IntegerField()
+    fouls=models.IntegerField()
+    carts=models.IntegerField()
+    game_time=models.IntegerField()
+
+class SeasonBasketball:
+    season_number = models.IntegerField(unique=True)
+    player=models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
+    partab2=models.IntegerField()
+    partab3=models.IntegerField()
+    fouls = models.IntegerField()
+    rebound= models.IntegerField()
+    game_time = models.IntegerField()
