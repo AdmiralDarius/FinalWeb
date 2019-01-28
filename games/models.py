@@ -1,5 +1,5 @@
 from django.db import models
-from info.models import Team
+from info.models import Team, Player
 
 
 class BasketbalState(models.Model):  # shayan
@@ -86,6 +86,8 @@ class Game(models.Model):  # shayan
     basketball_states = models.ForeignKey(BasketbalState, on_delete=models.CASCADE, null=True,
                                           blank=True)
     date = models.DateTimeField()
+    week = models.IntegerField()
+    best_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class LeagueGame(models.Model):  # shayan
@@ -112,10 +114,31 @@ class Event(models.Model):  # shayan
 
     )
 
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
+    color_choices = (
+        ('ec', 'table-info'),
+
+        # football
+        ('rc', 'bg-danger'),
+        ('yc', 'table-danger'),
+        ('go', 'bg-success'),
+
+        # basketball
+        ('rb', 'table-danger'),
+        ('2p', 'table-success'),
+        ('3p', 'bg-success'),
+
+    )
+
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True,
+                             related_name='events')
     title = models.CharField(max_length=2, choices=event_choices)
     time = models.TimeField()
     event_pic = models.CharField(max_length=30)
+    first_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True,
+                                     related_name='first_player')
+    second_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True,
+                                      related_name='second_player')
+    event_color_class = models.CharField(max_length=4, null=True, blank=True, choices=color_choices)
 
 
 class RelateNewsGame(models.Model):  # Darius

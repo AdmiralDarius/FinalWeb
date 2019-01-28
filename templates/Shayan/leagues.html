@@ -84,33 +84,35 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <table class="table table-dark table-borderless text-center" dir="rtl">
+            <table class="table table-dark table-borderless text-center sortable" dir="rtl">
                 <thead>
                 <tr>
                     <th scope="col">میزبان</th>
                     <th scope="col">نتیجه</th>
                     <th scope="col">میهمان</th>
                     <th scope="col">تاریخ بازی</th>
+                    <th scope="col">هفته</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if league.is_football %}
                     {% for game in league_game %}
                         <tr>
-                            <td>{{ game.team1.name }}</td>
-                            <td>{{ game.football_states.f_score }} - {{ game.football_states.s_score }}</td>
-                            <td>{{ game.team2.name }}</td>
+                            <td>{{ game.team1__name }}</td>
+                            <td>{{ game.football_states__f_score }} - {{ game.football_states__s_score }}</td>
+                            <td>{{ game.team2__name }}</td>
                             <td>
                                 <time datetime="{{ game.date }}">{{ game.date }}</time>
                             </td>
+                            <td>{{ game.week }}</td>
                         </tr>
                     {% endfor %}
                     {% else %}
                         {% for game in league_game %}
                         <tr>
-                            <td>{{ game.team1 }}</td>
-                            <td>{{ game.basketball_states.f_score }} - {{ game.basketball_states.s_score }}</td>
-                            <td>{{ game.team2 }}</td>
+                            <td>{{ game.team1.name }}</td>
+                            <td>{{ game.basketball_states__f_score }} - {{ game.football_states__s_score }}</td>
+                            <td>{{ game.team2.name }}</td>
                             <td>
                                 <time datetime="{{ game.date }}">{{ game.date }}</time>
                             </td>
