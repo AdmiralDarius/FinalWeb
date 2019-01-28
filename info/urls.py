@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path('a_team/<int:id>', views.a_team, name='a_team'),
     path('a_player/<int:id>', views.a_player, name='a_player'),
     path('a_team/<int:id>/<str:sortbythis>', views.a_team_sortbythis, name='team_list_sortbythis'),
+    re_path(r'^news/(?P<news_id>[0-9]+)$', views.get_news, name='news'),
 ]

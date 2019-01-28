@@ -18,15 +18,12 @@ def get_league(request, league_id):
     if league.is_football:
         league_game = league_game.select_related('team1', 'team2', 'football_states').values(
             'team1__name', 'team2__name', 'date', 'football_states__f_score',
-            'football_states__s_score', 'football_states__finished')
+            'football_states__s_score', 'football_states__finished', 'week')
     else:
         league_game = league_game.select_related('team1', 'team2', 'basketball_states').values(
             'team1__name', 'team2__name', 'date', 'basketball_states__f_score',
-            'basketball_states__s_score', 'basketball_states__finished')
+            'basketball_states__s_score', 'basketball_states__finished', 'week')
 
-    league_game = models.Game.objects.filter(
-        leaguegame__in=league.leaguegame_set.all()).select_related('team1', 'team2',
-                                                                   'football_states').all()
     league_team = league.leagueteam_set.all().values('wins', 'loses', 'team__name', 'draw',
                                                      'goals_diff', 'goals_received',
                                                      'goals_scored', 'score', 'team', 'game')

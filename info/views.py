@@ -1,8 +1,7 @@
-from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from sfuser.models import FavouritePlayer,FavouriteTeam,FavouriteGame
-from .models import News, RelateNewsTeam, RelateNewsPlayer, Team
+from sfuser.models import FavouritePlayer, FavouriteTeam, FavouriteGame
+from .models import News, RelateNewsTeam, RelateNewsPlayer, Tag, Team, Player
 from games.models import RelateNewsGame, Game
 
 
@@ -49,7 +48,7 @@ def show_news_list(request):
 
 
 def show_games_list(request):
-    games_list = set()
+    news_list = set()
     msg = ""
     if request.user.is_authenticated:
         games_list = FavouriteGame.objects.filter(user=request.user)
@@ -62,6 +61,40 @@ def show_games_list(request):
                "basketball_list": Game.objects.filter(is_football=False).all().reverse()}
 
     return render(request, "Darius/games.html", context)
+
+
+def get_news(request, news_id):
+    news = get_object_or_404(News.objects, pk=news_id)
+    tag = news.tag_set.all()
+    context = {
+        'news': news,
+        'tags': tag,
+    }
+
+    return render(request, 'Shayan/news_page.html', context)
+
+
+def get_game(request, game_id):
+    game = get_object_or_404(
+        Game.objects.select_related('best_player').prefetch_related(
+            'gamepic_set', 'gamevideo_set', 'basketball_states', 'football_states',
+            'team1__players',
+            'team2__players', 'events__first_player', 'events__second_player', ), pk=game_id)
+    team1_players = game.team1.players.all()
+    team1_players = game.team2.players.all()
+    events = game.events.select_related('first_player', 'second_player')
+    state = None
+    bestPlayer = game.best_player
+    pics = game.gamepic_set
+    videos = game.gamevideo_set
+    if game.is_football:
+        state = game.football_states
+    else:
+        state = game.basketball_states
+    # context = {
+    #     'game':game,
+    #     'team1_palyer'
+    # }
 
 def a_team(request,id):
     team=Team.objects.get(id=id)
