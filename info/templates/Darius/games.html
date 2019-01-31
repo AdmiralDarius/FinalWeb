@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!--css references-->
-    <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../../static/css/style.css">
+{% extends 'base.html' %}
+{% block title %}صفحه بازی ها{% endblock %}
 
-    <!--js references -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="../../../static/bootstrap/js/bootstrap.min.js"></script>
-
-    <title>بازی ها</title>
-
-</head>
-<body class="bg-dark">
+{% block content %}
+<div class="bg-dark">
     <ul class="nav nav-pills mb-3 justify-content-end bg-light" id="pills-tab" role="tablist">
         <li class="nav-item">
              <a class="nav-link " id="pills-fav-tab" data-toggle="pill" href="#pills-fav" role="tab" aria-controls="pills-fav" aria-selected="false">مورد علاقه</a>
@@ -27,26 +16,26 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
       <!-- favourit games to be shown here TODO -->
-       <div class="tab-pane fade text-right" id="pills-fav" role="tabpanel" aria-labelledby="pills-home-tab">consider can the</div>
+       <div class="tab-pane fade text-right" id="pills-fav" role="tabpanel" aria-labelledby="pills-home-tab">
 
             <div class="container">
                       <div class="row flex-row-reverse" style="height: 40rem;overflow-y:scroll;">
                         {% if msg %}
                             {{ msg }}
                         {% else %}
-                            {% if game_list %}
+                            {% if games_list %}
                                 {% for game in games_list %}
                                   <div class="col-lg-4 col-md-6 col-sm-10 ">
-                                      <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                                      <div class="card bg-light" style="width: 18rem; margin-top: 50px">
                                           <img class="card-img-top" src={{ game.picture.url }} alt="Card image cap">
                                           <div class="card-body">
                                             <h5 class="card-title">{{ game.title }}</h5>
                                             <p class="card-text text-truncate" style="direction: rtl">{{ game.brief_description }}</p>
                                           </div>
-                                          <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">{{ game.team1.name }}</li>
-                                            <li class="list-group-item">{{ game.team2.name }}</li>
-                                            <li class="list-group-item">{{ game.stadium }}</li>
+                                          <ul class="list-group list-group-flush" style="direction: rtl">
+                                            <li class="list-group-item">تیم 1 {{ game.team1.name }}</li>
+                                            <li class="list-group-item">تیم 2 {{ game.team2.name }}</li>
+                                            <li class="list-group-item">استادیوم {{ game.stadium }}</li>
                                           </ul>
                                           <div class="card-body">
                                             <span class="badge badge-secondary">{{ game.date }}</span>
@@ -56,12 +45,12 @@
                                   </div>
                                 {% endfor %}
                             {% else %}
-                                شما بازی هی را که نزدیک باشد دنبال نمی کنید
+                                شما بازی ای را که نزدیک باشد دنبال نمی کنید
                             {% endif %}
                         {% endif %}
                       </div>
                   </div>
-
+            </div>
       <!-- basketbal games to be shown here TODO -->
       <div class="tab-pane fade text-right" id="pills-bb" role="tabpanel" aria-labelledby="pills-profile-tab">
 
@@ -69,16 +58,16 @@
               <div class="row flex-row-reverse" style="height: 40rem;overflow-y:scroll;">
                 {% for game in basketball_list %}
                   <div class="col-lg-4 col-md-6 col-sm-10 ">
-                      <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                      <div class="card bg-light" style="width: 18rem; margin-top: 50px">
                           <img class="card-img-top" src={{ game.picture.url }} alt="Card image cap">
                           <div class="card-body">
                             <h5 class="card-title">{{ game.title }}</h5>
                             <p class="card-text text-truncate" style="direction: rtl">{{ game.brief_description }}</p>
                           </div>
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item">{{ game.team1.name }}</li>
-                            <li class="list-group-item">{{ game.team2.name }}</li>
-                            <li class="list-group-item">{{ game.stadium }}</li>
+                          <ul class="list-group list-group-flush" style="direction: rtl">
+                            <li class="list-group-item">تیم 1 {{ game.team1.name }}</li>
+                            <li class="list-group-item">تیم 2 {{ game.team2.name }}</li>
+                            <li class="list-group-item">استادیوم {{ game.stadium }}</li>
                           </ul>
                           <div class="card-body">
                             <span class="badge badge-secondary">{{ game.date }}</span>
@@ -98,19 +87,19 @@
               <div class="row flex-row-reverse" style="height: 40rem;overflow-y:scroll;">
                 {% for game in football_list %}
                   <div class="col-lg-4 col-md-6 col-sm-10 ">
-                      <div class="card bg-light" style="width: 18rem; margin-bottom: 50px">
+                      <div class="card bg-light" style="width: 18rem; margin-top: 50px">
                           <img class="card-img-top" src={{ game.picture.url }} alt="Card image cap">
                           <div class="card-body">
                             <h5 class="card-title">{{ game.title }}</h5>
                             <p class="card-text text-truncate" style="direction: rtl">{{ game.brief_description }}</p>
                           </div>
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item">{{ game.team1.name }}</li>
-                            <li class="list-group-item">{{ game.team2.name }}</li>
-                            <li class="list-group-item">{{ game.stadium }}</li>
+                          <ul class="list-group list-group-flush" style="direction: rtl">
+                            <li class="list-group-item">تیم 1 {{ game.team1.name }}</li>
+                            <li class="list-group-item">تیم 2 {{ game.team2.name }}</li>
+                            <li class="list-group-item">استادیوم {{ game.stadium }}</li>
                           </ul>
                           <div class="card-body">
-                            <span class="badge badge-secondary">{{ game.game_time }}</span>
+                            <span class="badge badge-secondary">{{ game.date }}</span>
                             <a href="#" class="card-link">مشاهده</a> <!--TODO-->
                           </div>
                       </div>
@@ -125,5 +114,5 @@
 
 
 
-</body>
-</html>
+</div>
+{% endblock %}

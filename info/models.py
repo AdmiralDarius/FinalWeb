@@ -59,7 +59,7 @@ class Tag(models.Model):  # Darius
 
 
 
-class SeasonFootball:
+class SeasonFootball(models.Model):
     season_number=models.IntegerField(unique=True)
     player=models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
     goals=models.IntegerField()
@@ -68,7 +68,10 @@ class SeasonFootball:
     carts=models.IntegerField()
     game_time=models.IntegerField()
 
-class SeasonBasketball:
+    class Meta:
+        ordering = ["season_number"]
+
+class SeasonBasketball(models.Model):
     season_number = models.IntegerField(unique=True)
     player=models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
     partab2=models.IntegerField()
@@ -76,3 +79,6 @@ class SeasonBasketball:
     fouls = models.IntegerField()
     rebound= models.IntegerField()
     game_time = models.IntegerField()
+
+    class Meta:
+        ordering = ["season_number"]
