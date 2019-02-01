@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from info.models import Player, Team
-from sfuser.models import FavouritePlayer, FavouriteTeam
+from info.models import Player, Team, News
+from sfuser.models import FavouritePlayer, FavouriteTeam, SFComment
 
 
 def sfuser_player(request,id):
@@ -38,3 +38,9 @@ def sfuser_team(request,id):
     now = FavouriteTeam.objects.create(user=request.user, team=Team.objects.get(id=id))
     now.save()
     return redirect("/info/a_team/{}/date".format(id))
+
+def save_comment(request,id):
+    now=News.objects.get(id=id)
+    another=SFComment.objects.create(news=now,name=request.POST['dame'],text=request.POST['dext'])
+    another.save()
+    return redirect("/info/news/{}".format(id))
