@@ -1,74 +1,60 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% load games_costumtag %}
+{% block title %}لیگها{% endblock %}
 
-    <!--css-->
-    <link rel="stylesheet" href="{% static "/bootstrap/css/bootstrap.min.css" %}"/>
-    <link rel="stylesheet" href="{% static "/css/style.css" %}">
+{% block content %}
+    <div class="container">
+        <div class="navbar bg-white pb-0">
+            <div class="nav-item ">
 
-    <!--js-->
-    <script src="{% static "/js/sorttable.js" %}"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="{% static "/bootstrap/js/bootstrap.min.js" %}"></script>
-
-
-    <title>لیگ های فوتبال و بسکتبال</title>
-
-</head>
-<body>
-<div class="container">
-    <div class="navbar bg-white pb-0">
-        <div class="nav-item ">
-
-            <form class=" form-inline my-2 my-lg-0" method="post" action="{% url 'league_search' %}">
-                {% csrf_token %}
-                <input name="query" class="form-control mr-sm-2" type="search" placeholder="جستجو لیگ" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">جستجو</button>
-            </form>
-        </div>
-        <ul class="nav nav-tabs bg-white ">
-            <li class="nav-item" id="ongoing-button">
-                <a class="nav-link active" data-toggle="tab" href="#ongoing">در حال اجرا</a>
-            </li>
-            <li class="nav-item" id="finished-button">
-                <a class="nav-link" data-toggle="tab" href="#finished">پایان یافته</a>
-            </li>
-        </ul>
-    </div>
-    <div class="tab-content">
-        <div class="container-fluid bg-light py-1 tab-pane flex-row-reverse show active" id="ongoing">
-            <div class="row justify-content-center justify-content-sm-end">
-                {% for league in leagues %}
-                    {% if not league.finished %}
-                        <a class="col-8 col-sm-3 p-1" href="{% url "league" league_id=league.pk %}">
-                            <div class="card hover-b">
-                                <img class="card-img card-image-bg " src="{% static "/Resources/" %}/{{ league.logo }}">
-                                <h6 class="card-body text-center">{{ league.name }}</h6>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
+                <form class=" form-inline my-2 my-lg-0" method="post" action="{% url 'league_search' %}">
+                    {% csrf_token %}
+                    <input name="query" class="form-control mr-sm-2" type="search" placeholder="جستجو لیگ"
+                           aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">جستجو</button>
+                </form>
             </div>
+            <ul class="nav nav-tabs bg-white ">
+                <li class="nav-item" id="ongoing-button">
+                    <a class="nav-link active" data-toggle="tab" href="#ongoing">در حال اجرا</a>
+                </li>
+                <li class="nav-item" id="finished-button">
+                    <a class="nav-link" data-toggle="tab" href="#finished">پایان یافته</a>
+                </li>
+            </ul>
         </div>
-        <div class="container-fluid bg-light py-1 tab-pane flex-row-reverse " id="finished">
-            <div class="row justify-content-center justify-content-sm-end">
-                {% for league in leagues %}
-                    {% if league.finished %}
-                        <a class="col-8 col-sm-3 p-1" href="{% url "league" league_id=league.pk %}">
-                            <div class="card hover-b">
-                                <img class="card-img card-image-bg " src="{% static "/Resources/" %}/{{ league.logo }}">
-                                <h6 class="card-body text-center">{{ league.name }}</h6>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
+        <div class="tab-content">
+            <div class="container-fluid bg-light py-1 tab-pane flex-row-reverse show active" id="ongoing">
+                <div class="row justify-content-center justify-content-sm-end">
+                    {% for league in leagues %}
+                        {% if not league.finished %}
+                            <a class="col-8 col-sm-3 p-1" href="{% url "league" league.pk %}">
+                                <div class="card hover-b">
+                                    <img class="card-img card-image-bg "
+                                         src="{% static "/Resources/" %}/{{ league.logo }}">
+                                    <h6 class="card-body text-center">{{ league.name }}</h6>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="container-fluid bg-light py-1 tab-pane flex-row-reverse " id="finished">
+                <div class="row justify-content-center justify-content-sm-end">
+                    {% for league in leagues %}
+                        {% if league.finished %}
+                            <a class="col-8 col-sm-3 p-1" href="{% url "league" league_id=league.pk %}">
+                                <div class="card hover-b">
+                                    <img class="card-img card-image-bg "
+                                         src="{% static "/Resources/" %}/{{ league.logo }}">
+                                    <h6 class="card-body text-center">{{ league.name }}</h6>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}

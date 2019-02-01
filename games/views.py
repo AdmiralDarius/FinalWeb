@@ -36,13 +36,13 @@ def get_league(request, league_id):
     else:
         league_game = league_game.select_related('team1', 'team2', 'basketball_states').values(
             'team1__name', 'team2__name', 'date', 'basketball_states__f_score',
-            'basketball_states__s_score', 'basketball_states__finished', 'week')
+            'basketball_states__s_score', 'basketball_states__finished', 'week',)
 
     league_team = league.leagueteam_set.all().values('wins', 'loses', 'team__name', 'draw',
                                                      'goals_diff', 'goals_received',
-                                                     'goals_scored', 'score', 'team', 'game')
+                                                     'goals_scored', 'score', 'team', 'game','id')
 
-    relation = [team.name for team in league_team]
+    relation = [team['team__name'] for team in league_team]
     relation.append(league.name)
     related_news = get_related_news(*relation)[:4]
     context = {

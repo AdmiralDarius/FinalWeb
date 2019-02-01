@@ -76,9 +76,10 @@ def get_news(request, news_id):
     news = get_object_or_404(News.objects, pk=news_id)
     tags = news.tag_set.all()
     related_news = get_related_news(*[tag.description for tag in tags])
-    for news in related_news:
-        if news.id == news_id:
-            related_news.pop(news)
+    import pdb
+    for r_news in related_news:
+        if r_news.id == news.id:
+            related_news.remove(r_news)
     related_news = related_news[:4]
     context = {
         'news': news,
@@ -118,8 +119,8 @@ def get_game(request, game_id):
     else:
         ranges = range(0, 45)
 
-    t1_player_name = [player.name for player in team1_players]
-    t2_player_name = [player.name for player in team2_players]
+    t1_player_name = [player.player.name for player in team1_players]
+    t2_player_name = [player.player.name for player in team2_players]
     related_news = get_related_news(game.team1.name, game.team2.name, game.title, *t1_player_name,
                                     *t2_player_name)[:4]
 
@@ -266,4 +267,5 @@ def get_related_news(*args):
             if arg in cur_tex:
                 final_news.append(now)
                 continue
+    final_news = list(set(final_news))
     return final_news

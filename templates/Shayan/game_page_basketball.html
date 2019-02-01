@@ -219,10 +219,10 @@
             <div class="row justify-content-center">
                 {% for news in related_news %}
                 <div class="col-6 col-md-3 p-1">
-                    <div class="card  hover-b">
+                    <a class="card  hover-b" href="{% url "info:news" news.id %}">
                         <img class="card-img" src="{% get_media_prefix %}{{ news.picture }}">
                         <h6 class="card-body"> {{ news.title }}</h6>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
