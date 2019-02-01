@@ -30,7 +30,7 @@
                             <td>{{ player.total_in_game }}</td>
                             <td>{{ player.rebounds }}</td>
                             <td>{{ player.exchange_time }}</td>
-                            <td>{{ player.player.name }}</td>
+                            <td><a href="{% url "info:a_player" player.player.id %}">{{ player.player.name }}</a></td>
                         </tr>
                     {% endfor %}
 
@@ -57,7 +57,7 @@
                             <td>{{ player.total_in_game }}</td>
                             <td>{{ player.rebounds }}</td>
                             <td>{{ player.exchange_time }}</td>
-                            <td>{{ player.player.name }}</td>
+                            <td><a href="{% url "info:a_player" player.player.id %}">{{ player.player.name }}</a></td>
                         </tr>
                     {% endfor %}
 
