@@ -68,11 +68,12 @@
                         {% endfor %}
 
                     </div>
-                    <form class="form-group m-3">
+                    <form class="form-group m-3" method="post" action={% url "sfuser:save_comment" news.id %}>
+                        {% csrf_token %}
                         <label>نظر خود را در این مکان بنویسید</label>
-                        <textarea class="form-text w-100 " rows="8" type="text"></textarea>
+                        <input class="text" type="text" name="dame" id="dame">
+                        <textarea class="form-text w-100 " rows="8" type="text" name="dext" id="dext"></textarea>
                         <button type="button" class="btn btn-primary my-2">ثبت نظر</button>
-
                     </form>
 
 

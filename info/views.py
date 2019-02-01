@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
-from sfuser.models import FavouritePlayer, FavouriteTeam, FavouriteGame
+from sfuser.models import FavouritePlayer, FavouriteTeam, FavouriteGame, SFComment
 from .models import News, RelateNewsTeam, RelateNewsPlayer, Tag, Team, Player
 from games.models import RelateNewsGame, Game,GamePic, GameVideo
 
@@ -84,7 +84,8 @@ def get_news(request, news_id):
     context = {
         'news': news,
         'tags': tags,
-        'related_news':related_news
+        'related_news':related_news,
+        'comments':SFComment.objects.filter(news=news).all()
     }
 
     return render(request, 'Shayan/news_page.html', context)
