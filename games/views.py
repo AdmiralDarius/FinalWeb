@@ -16,8 +16,13 @@ def all_leagues(request):
 def all_leagues_search(request):
     leagues = models.League.objects.order_by("start_date")
     result = []
+    query_split = str(request.POST['query']).split(' ')
     for league in leagues:
-        if request.POST['query'] in league.name:
+        exist = True
+        for word in query_split:
+            if word not in league.name:
+                exist = False
+        if exist:
             result.append(league)
 
     context = {
