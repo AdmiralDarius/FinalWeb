@@ -1,5 +1,6 @@
 from django.db import models
 from info.models import Team, Player
+import os
 
 
 class BasketbalState(models.Model):  # shayan
@@ -71,7 +72,7 @@ def user_directory_path(instance, filename):
 
 
 class Game(models.Model):  # shayan
-    
+
     title = models.CharField(max_length=50)
     brief_description = models.CharField(max_length=100)
     stadium = models.CharField(max_length=50)
@@ -103,45 +104,65 @@ class Event(models.Model):  # shayan
 
     event_choices = (
 
-        ('ec', 'exchange'),
+        ('تعویض', 'تعویض'),
 
         # football
-        ('rc', 'red card'),
-        ('yc', 'yellow card'),
-        ('go', 'goal'),
+        ('کارت قرمز', 'کارت قرمز'),
+        ('کارت زرد', 'کارت زرد'),
+        ('گل''go', 'گل'),
 
         # basketball
-        ('rb', 'rebound'),
-        ('2p', '2 point'),
-        ('3p', '3 point'),
+        ('ریباند', 'ریباند'),
+        ('دو امتیازی', 'دو امتیازی'),
+        ('سه امتیازی', 'سه امتیازی'),
 
     )
 
     color_choices = (
-        ('ec', 'table-info'),
+        ('table-info', 'تعویض'),
 
         # football
-        ('rc', 'bg-danger'),
-        ('yc', 'table-danger'),
-        ('go', 'bg-success'),
+        ('bg-danger', 'کارت قرمز'),
+        ('table-danger', 'کارت زرد'),
+        ('bg-success', 'گل'),
 
         # basketball
-        ('rb', 'table-danger'),
-        ('2p', 'table-success'),
-        ('3p', 'bg-success'),
+        ('table-danger', 'ریباند'),
+        ('table-success', 'دو امتیاز'),
+        ('bg-success', 'سه امتیاز'),
 
     )
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True,
                              related_name='events')
-    title = models.CharField(max_length=2, choices=event_choices)
-    time = models.TimeField()
+    title = models.CharField(max_length=40, choices=event_choices)
+    time = models.IntegerField()
     event_pic = models.CharField(max_length=30)
     first_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True,
                                      related_name='first_player')
     second_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True,
                                       related_name='second_player')
-    event_color_class = models.CharField(max_length=4, null=True, blank=True, choices=color_choices)
+    event_color_class = models.CharField(max_length=40, null=True, blank=True,
+                                         choices=color_choices,
+                                         default='ec')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True,
+                             related_name='events')
+
+
+class PlayersGame(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, blank=True)
+    player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
+    bench = models.BooleanField()
+
+
+class BasketPlayerGame(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, blank=True)
+    player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
+    exchange_time = models.IntegerField()
+    rebounds = models.IntegerField()
+    total_in_game = models.IntegerField()
+    point_3 = models.IntegerField()
+    point_2 = models.IntegerField()
 
 
 class RelateNewsGame(models.Model):  # Darius
@@ -150,6 +171,7 @@ class RelateNewsGame(models.Model):  # Darius
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
+
 
 def game_pic_directory(instance, filename):
     return '{0}/{1}/{2}'.format('game pictures', instance.game_id, filename)
@@ -167,3 +189,9 @@ def game_video_directory(instance, filename):
 class GameVideo(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
     video = models.FileField(upload_to=game_video_directory, null=True, blank=True)
+    thumbnail = models.ImageField(upload_to=game_video_directory, null=True, blank=True)
+
+    def extension(self):
+        name, extension = os.path.splitext(self.video.name)
+        extension = extension.replace('.', '')
+        return extension

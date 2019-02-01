@@ -32,22 +32,15 @@
 <main class="container bg-light ">
     <div class="row justify-content-around">
         <div class="col-3 m-2 flex-column p-0 card align-self-start d-none d-md-block">
-            <!--TODO-->
             <header class="card-header bg-primary text-light">
                 اخبار مرتبط
             </header>
-            <div class="card m-1 ">
-                <img class="card-img" src="../../Resources/side1.jpg">
-                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
-            </div>
-            <div class="card m-1">
-                <img class="card-img" src="../../Resources/side2.jpg">
-                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
-            </div>
-            <div class="card m-1">
-                <img class="card-img" src="../../Resources/side3.jpg">
-                <h6 class="card-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h6>
-            </div>
+            {% for news in related_news %}
+                <div class="card m-1 ">
+                    <img class="card-img" src="{% get_media_prefix %}{{ news.picture }}">
+                    <h6 class="card-body"> {{ news.title }}</h6>
+                </div>
+            {% endfor %}
         </div>
         <div class="col-8">
             <table class="col-8 mt-2 table table-striped text-center table-bordered table-sm table-responsive-md sortable"
@@ -107,8 +100,8 @@
                             <td>{{ game.week }}</td>
                         </tr>
                     {% endfor %}
-                    {% else %}
-                        {% for game in league_game %}
+                {% else %}
+                    {% for game in league_game %}
                         <tr>
                             <td>{{ game.team1.name }}</td>
                             <td>{{ game.basketball_states__f_score }} - {{ game.football_states__s_score }}</td>
