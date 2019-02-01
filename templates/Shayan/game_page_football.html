@@ -36,7 +36,7 @@
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
-                            <td>{{ player.player.name }}</td>
+                            <td><a href="{% url "info:a_player" player.player.id %}"> {{ player.player.name }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -106,7 +106,7 @@
                     {% for player in team2_player %}
                         <tr {% if player.bench and player.player.id != bestplayer.id %}class="table-danger"{% endif %}
                             {% if player.player.id == bestplayer.id %}id ='best-player'{% endif %}>
-                            <td>{{ player.player.name }}</td>
+                            <td><a href="{% url "info:a_player" player.player.id %}">{{ player.player.name }}</a></td>
                             {% for event in events %}
                                 {% if event.title == 'تعویض' %}
                                     {% if player.player == event.first_player %}
