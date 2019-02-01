@@ -74,35 +74,19 @@
                         <h6 class="m-3">نظرات</h6>
                     </header>
                     <div class="media  p-2 mx-2 my-2 container">
+                        {% for comment in comments %}
                         <div class="row">
-                            <div class="col-2 align-self-start d-flex flex-column">
-                                <img class="align-self-center" src="../../Resources/Avatars/alien_64.png">
-                                <span class="text-center">alien</span>
-                            </div>
                             <div class="media-body img-thumbnail col-9 p-2 mx-1 my-2">
                                 <p class="d-inline-block">
-                                    ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون
+                                    {{ comment.name }}
                                 </p>
-                                <a class=" text-muted">پاسخ</a>
-                                <div class="media  p-2 mx-2 my-2 container">
-                                    <div class="row">
-                                        <div class="col-2 align-self-start d-flex flex-column">
-                                            <img class="align-self-center" src="../../Resources/Avatars/avatar2.png">
-                                            <span class="text-center">alien</span>
-                                        </div>
-                                        <div class="media-body img-thumbnail col-9">
-                                            <p>
-                                                ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
-                                                طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون
-                                            </p>
-                                            <a class=" text-muted">پاسخ</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p class="d-inline-block">
+                                    {{ comment.text }}
+                                </p>
 
                             </div>
                         </div>
+                        {% endfor %}
 
                     </div>
                     <form class="form-group m-3">
