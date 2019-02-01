@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from sfuser.models import FavouritePlayer, FavouriteTeam, FavouriteGame
 from .models import News, RelateNewsTeam, RelateNewsPlayer, Tag, Team, Player
-from games.models import RelateNewsGame, Game
+from games.models import RelateNewsGame, Game,GamePic, GameVideo
 
 from django.utils import timezone
 def show_news_list(request):
@@ -15,7 +15,7 @@ def show_news_list(request):
     msg=""
     if request.user.is_authenticated:
 
-        fteam=FavouriteTeam.objects.filter(user=request.user).all()
+        fteam = FavouriteTeam.objects.filter(user=request.user).all()
         fplayer = FavouritePlayer.objects.filter(user=request.user).all()
         fgame = FavouriteGame.objects.filter(user=request.user).all()
 
@@ -26,13 +26,13 @@ def show_news_list(request):
                 continue
             news.day=result.days
             for team in fteam:
-                if RelateNewsTeam.objects.filter(news=news,team=team.team).exists():
+                if RelateNewsTeam.objects.filter(news=news, team=team.team).exists():
                     news_list.add(news)
             for game in fgame:
-                if RelateNewsGame.objects.filter(news=news,game=game.game).exists():
+                if RelateNewsGame.objects.filter(news=news, game=game.game).exists():
                     news_list.add(news)
             for player in fplayer:
-                if RelateNewsPlayer.objects.filter(news=news,player=player.player).exists():
+                if RelateNewsPlayer.objects.filter(news=news, player=player.player).exists():
                     news_list.add(news)
 
     else:
@@ -62,20 +62,29 @@ def show_games_list(request):
     else:
         msg = "لطفا ابتدا وارد سیستم شوید تا مورد علاقه ها نمایش داده شود"
     games_list.reverse()
-    context = {"games_list": games_list,
-               "msg": msg,
-               "football_list": Game.objects.filter(is_football=True).all().reverse(),
-               "basketball_list": Game.objects.filter(is_football=False).all().reverse()}
+    context = {
+        "games_list": games_list,
+        "msg": msg,
+        "football_list": Game.objects.filter(is_football=True).all().reverse(),
+        "basketball_list": Game.objects.filter(is_football=False).all().reverse()
+    }
 
     return render(request, "Darius/games.html", context)
 
 
 def get_news(request, news_id):
     news = get_object_or_404(News.objects, pk=news_id)
-    tag = news.tag_set.all()
+    tags = news.tag_set.all()
+    related_news = get_related_news(*[tag.description for tag in tags])
+    import pdb
+    for r_news in related_news:
+        if r_news.id == news.id:
+            related_news.remove(r_news)
+    related_news = related_news[:4]
     context = {
         'news': news,
-        'tags': tag,
+        'tags': tags,
+        'related_news':related_news
     }
 
     return render(request, 'Shayan/news_page.html', context)
@@ -84,24 +93,54 @@ def get_news(request, news_id):
 def get_game(request, game_id):
     game = get_object_or_404(
         Game.objects.select_related('best_player').prefetch_related(
-            'gamepic_set', 'gamevideo_set', 'basketball_states', 'football_states',
-            'team1__players',
-            'team2__players', 'events__first_player', 'events__second_player', ), pk=game_id)
-    team1_players = game.team1.players.all()
-    team1_players = game.team2.players.all()
-    events = game.events.select_related('first_player', 'second_player')
-    state = None
+            'basketball_states', 'football_states', 'events__first_player',
+            'events__second_player', ), pk=game_id)
+    if game.is_football:
+        team1_players = game.playersgame_set.select_related('player').filter(
+            player__team=game.team1).order_by('bench')
+        team2_players = game.playersgame_set.select_related('player').filter(
+            player__team=game.team2).order_by('bench')
+    else:
+        team1_players = game.basketplayergame_set.select_related('player').filter(
+            player__team=game.team1)
+        team2_players = game.basketplayergame_set.select_related('player').filter(
+            player__team=game.team2)
+    events = game.events.select_related('first_player', 'second_player', 'team')
     bestPlayer = game.best_player
-    pics = game.gamepic_set
-    videos = game.gamevideo_set
+    pics = GamePic.objects.filter(game=game.pk)
+    videos = GameVideo.objects.filter(game=game.pk)
     if game.is_football:
         state = game.football_states
     else:
         state = game.basketball_states
-    # context = {
-    #     'game':game,
-    #     'team1_palyer'
-    # }
+
+    if game.is_football:
+        ranges = range(0, 90)
+    else:
+        ranges = range(0, 45)
+
+    t1_player_name = [player.player.name for player in team1_players]
+    t2_player_name = [player.player.name for player in team2_players]
+    related_news = get_related_news(game.team1.name, game.team2.name, game.title, *t1_player_name,
+                                    *t2_player_name)[:4]
+
+    context = {
+        'game': game,
+        'team1_palyer': team1_players,
+        'team2_player': team2_players,
+        'events': events,
+        'state': state,
+        'bestplayer': bestPlayer,
+        'pics': pics,
+        'videos': videos,
+        'range': ranges,
+        'related_news': related_news,
+    }
+    if game.is_football:
+        return render(request, 'Shayan/game_page_football.html', context)
+    else:
+        return render(request, 'Shayan/game_page_basketball.html', context)
+
 
 def result_to_str(num):
     if num==0:
@@ -118,9 +157,9 @@ def a_team_sortbythis(request,id,sortbythis):
     for now in raw_news:
         dorost=False
         flag=True
-        cur_tex=now.body+now.title
+        cur_tex = now.body + now.title
         for i in now.tag_set.all():
-            cur_tex+=i.description
+            cur_tex += i.description
         if team.name in cur_tex:
             dorost = True
         for i in team.player_set.all():
@@ -174,7 +213,8 @@ def a_team_sortbythis(request,id,sortbythis):
     context={"team":team,"games":games_final,"news":final_news,"sf_is_fav":sf_is_fav,"sf_is_auth":sf_is_auth}
     return render(request, "Darius/team.html", context)
 
-def a_player(request,id):
+
+def a_player(request, id):
     player = Player.objects.get(id=id)
     in_news=[]
     search=""
@@ -209,8 +249,23 @@ def a_player(request,id):
     else:
         the_set=player.seasonbasketball_set.all()
     in_news.reverse()
-    context={"player":player,'sf_is_auth':sf_is_auth,'sf_is_fav':sf_is_fav,"the_set":the_set,"in_news":in_news}
+    context = {"player":player,'sf_is_auth':sf_is_auth,'sf_is_fav':sf_is_fav,"the_set":the_set,"in_news":in_news}
     return render(request, "Darius/player.html", context)
 
 def index(request):
     return redirect("/info/news")
+
+
+def get_related_news(*args):
+    raw_news = News.objects.all()
+    final_news = []
+    for now in raw_news:
+        cur_tex = now.body + now.title
+        for i in now.tag_set.all():
+            cur_tex += i.description
+        for arg in args:
+            if arg in cur_tex:
+                final_news.append(now)
+                continue
+    final_news = list(set(final_news))
+    return final_news

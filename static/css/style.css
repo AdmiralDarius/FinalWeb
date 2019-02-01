@@ -49,7 +49,7 @@ pre {
     table-layout: fixed;
 }
 
-.best-player {
+#best-player {
     background-color: #e0a800;
 }
 
@@ -104,14 +104,21 @@ pre {
     border-top: 2px solid #6c757d;
     border-bottom: 2px solid #6c757d;
     background-color: #d4d4d4;
+    transform: rotate(360deg);
+    min-height: 20px;
 }
 
 .event-space {
     flex: 1 1 auto;
 }
 
-.timeline-basket img {
+.timeline-basket {
+    transform: rotate(360deg);
+}
+
+.timeline img {
     max-height: 20px;
+    min-height: 20px;
 }
 
 ::-webkit-scrollbar-corner {
