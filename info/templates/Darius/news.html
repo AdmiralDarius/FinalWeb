@@ -35,7 +35,7 @@
                                   </ul>
                                   <div class="card-body">
                                       <div>
-                                        <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                        <a href={% url "info:news" news.id %} class="card-link">مشاهده</a> <!-- TODO-->
                                           {% for i in news.tag_set.all %}
                                              <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
                                           {% endfor %}
@@ -89,7 +89,7 @@
                           </ul>
                           <div class="card-body">
                               <div>
-                                <a href="#" class="card-link">مشاهده</a> <!-- TODO-->
+                                <a href={% url "info:news" news.id %} class="card-link">مشاهده</a> <!-- TODO-->
                                   {% for i in news.tag_set.all %}
                                      <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
                                   {% endfor %}
@@ -122,7 +122,7 @@
                           </ul>
                           <div class="card-body">
                               <div>
-                                <a href="#" class="card-link"> مشاهده</a> <!-- TODO-->
+                                <a href={% url "info:news" news.id %} class="card-link"> مشاهده</a> <!-- TODO-->
                                   {% for i in news.tag_set.all %}
                                      <span class="btn-info" style="margin: 5px;padding: 2px" >{{ i.description }}</span>
                                   {% endfor %}

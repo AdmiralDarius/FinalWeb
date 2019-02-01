@@ -39,7 +39,7 @@
                                           </ul>
                                           <div class="card-body">
                                             <span class="badge badge-secondary">{{ game.date }}</span>
-                                            <a href="#" class="card-link">مشاهده</a> <!--TODO-->
+                                            <a href={% url "info:game" game.id %} class="card-link">مشاهده</a> <!--TODO-->
                                           </div>
                                       </div>
                                   </div>
@@ -71,7 +71,7 @@
                           </ul>
                           <div class="card-body">
                             <span class="badge badge-secondary">{{ game.date }}</span>
-                            <a href="#" class="card-link">مشاهده</a> <!--TODO-->
+                            <a href="#" class="card-link">{% url "info:game" game.id %}</a> <!--TODO-->
                           </div>
                       </div>
                   </div>
@@ -100,7 +100,7 @@
                           </ul>
                           <div class="card-body">
                             <span class="badge badge-secondary">{{ game.date }}</span>
-                            <a href="#" class="card-link">مشاهده</a> <!--TODO-->
+                            <a href="#" class="card-link">{% url "info:game" game.id %}</a> <!--TODO-->
                           </div>
                       </div>
                   </div>
