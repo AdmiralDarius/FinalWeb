@@ -127,7 +127,7 @@
                                   <td scope="row">{{ game.team.name }}</td>
                                   <td>{{ game.result }}</td>
                                   <td>{{ game.date }}</td>
-                                  <td><a class="" href="#">صفحه بازی</a> </td> <!-- TODO -->
+                                  <td><a class="" href={% url "info:game" game.id %}>صفحه بازی</a> </td> <!-- TODO -->
                                 </tr>
                                 {% endfor %}
                               </tbody>
