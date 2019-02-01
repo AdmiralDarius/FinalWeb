@@ -75,7 +75,11 @@ def show_games_list(request):
 def get_news(request, news_id):
     news = get_object_or_404(News.objects, pk=news_id)
     tags = news.tag_set.all()
-    related_news = get_related_news(*[tag.description for tag in tags])[:4]
+    related_news = get_related_news(*[tag.description for tag in tags])
+    for news in related_news:
+        if news.id == news_id:
+            related_news.pop(news)
+    related_news = related_news[:4]
     context = {
         'news': news,
         'tags': tags,
