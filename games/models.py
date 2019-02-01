@@ -93,6 +93,8 @@ class Game(models.Model):  # shayan
     date_added = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
 
+    class Meta:
+        ordering = ["date_added"]
 
 class LeagueGame(models.Model):  # shayan
 

@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!--css references-->
- <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../../static/css/style.css">
-
-    <!--js references -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="../../../static/bootstrap/js/bootstrap.min.js"></script>
-
-    <title>تیم فلان</title>
-    <script>
-        function sortTable(n) {
+{% extends 'base.html' %}
+{% block title %}{{ team.name }}{% endblock %}
+{% block somescript %}
+    function sortTable(n) {
           var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
           table = document.getElementById("games_table");
           switching = true;
@@ -90,17 +79,23 @@
             }
           }
         }
-    </script>
-</head>
-<body class="bg-light">
+{% endblock %}
+{% block content %}
+<div class="bg-light">
 
     <div class="container">
         <div class="row">
             <div class="col">
-                <button class="btn btn-info" style="margin: 30px;">دنبال کردن</button>
-                <span class="text-muted ">برای دنبال کردن اخبار و بازی های مربوط به این تیم روی این دکمه کلیک کنید</span>
-
-
+                {% if sf_is_auth %}
+                        {% if sf_is_fav %}
+                            <span class="text-muted ">شما این تیم را دنبال می کنید</span>
+                        {% else %}
+                            <a class="btn btn-info" style="margin: 30px;" href={% url "sfuser:like_team" team.id %}>دنبال کردن</a>
+                            <span class="text-muted ">برای دنبال کردن اخبار و بازی های مربوط به این تیم روی این دکمه کلیک کنید</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="text-muted ">برای دنبال کردن اخبار و بازی های مربوط به این تیم وارد سیستم شوید</span>
+                    {% endif %}
             </div>
         </div>
         <div class="row flex-row-reverse">
@@ -120,26 +115,18 @@
                             <table class="table table-responsive-md table-hover" id="games_table">
                               <thead>
                                 <tr>
-                                  <th scope="col" onclick={% url "info:a_team" team.id 'opponent' %}  style="cursor:pointer">رقیب</th>
-                                  <th scope="col" onclick={% url "info:a_team" team.id 'result' %} style="cursor:pointer">برد یا باخت</th>
-                                  <th scope="col" onclick={% url "info:a_team" team.id 'date' %} style="cursor:pointer">تاریخ</th>
+                                    <th scope="col" style="cursor:pointer"><a href={% url "info:team_list_sortbythis" team.id 'opponent' %}>رقیب</a></th>
+                                    <th scope="col" style="cursor:pointer"><a href={% url "info:team_list_sortbythis" team.id 'result' %}>برد یا باخت</a></th>
+                                    <th scope="col" style="cursor:pointer"><a href={% url "info:team_list_sortbythis" team.id 'date' %}>تاریخ</a></th>
                                   <th scope="col">لینک بازی</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {% for game in games %}
                                 <tr>
-                                    {% if game.team1 == team %}
-                                      <td scope="row">{{ game.team2.name }}</td>
-                                    {% else %}
-                                      <td scope="row">{{ game.team1.name }}</td>
-                                    {% endif %}
-                                    {% if game.team1 == team %}
-                                      <td>{{ game.result }}</td>
-                                    {% else %}
-                                      <td>{% if game.result == "برد" %} باخت {% else %} {% if game.result == "باخت" %} برد {% else %} مساوی {% endif %} {% endif %}</td>
-                                    {% endif %}
-                                  <td>{{ game.played }}</td>
+                                  <td scope="row">{{ game.team.name }}</td>
+                                  <td>{{ game.result }}</td>
+                                  <td>{{ game.date }}</td>
                                   <td><a class="" href="#">صفحه بازی</a> </td> <!-- TODO -->
                                 </tr>
                                 {% endfor %}
@@ -172,11 +159,11 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                {% for player in team.player_set %}
+                                {% for player in team.player_set.all %}
                                     <tr>
                                       <td scope="row">{{ player.name }}</td>
                                       <td>{{ player.role }}</td>
-                                      <td><a class="" href={% url 'info:player' player.id %}>صفحه بازی</a> </td>
+                                      <td><a class="" href={% url 'info:a_player' player.id %}>صفحه بازی</a> </td>
                                     </tr>
                                 {% endfor %}
                               </tbody>
@@ -203,7 +190,14 @@
 
                 <div class="row">
             <div class="col">
-
+                     <hr>
+                    <form action={% url "info:team_list_sortbythis" team.id 'date'%} method="post">
+                        {% csrf_token %}
+                        <label for="your_name">جست و جو: </label>
+                        <input id="searchby" type="text" name="searchby" value="">
+                        <input type="submit" value="بگرد">
+                    </form>
+                    <hr>
                 <hr>
                 <h2>اخبار مرتبط</h2>
                 <hr>
@@ -239,5 +233,5 @@
 
 
 
-</body>
-</html>
+</div>
+{% endblock %}
